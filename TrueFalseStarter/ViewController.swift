@@ -35,7 +35,7 @@ class ViewController: UIViewController {
         loadGameStartSound()
         // Start game
         playGameStartSound()
-        displayQuestionTrueFalse()
+        displayingTheQuestions()// displaying randomly the questions, either true-false, or 4 options
     }
 
     override func didReceiveMemoryWarning() {
@@ -43,10 +43,21 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    func displayingTheQuestions(){
+        let pickingRandomGuess = GKRandomSource().nextIntWithUpperBound(2)
+        // i do think that 2 is not a magic number
+        if(pickingRandomGuess == 0){
+            displayQuestionTrueFalse()
+        } else{
+            displayQuestionsWithOptions()
+        }
+    }
+    
     func displayQuestionTrueFalse() {//renaming the question for true false
         indexOfSelectedQuestion = GKRandomSource.sharedRandom().nextIntWithUpperBound(trivia.count)
         let questionDictionary = trivia[indexOfSelectedQuestion]
-        questionField.text = questionDictionary["Question"]
+        let checkThis = questionDictionary["Question"]
+        questionField.text = checkThis
         playAgainButton.hidden = true
     }
     
@@ -137,14 +148,35 @@ class ViewController: UIViewController {
     @IBOutlet weak var option3: UIButton!
     @IBOutlet weak var option4: UIButton!
     
-    
+    let dataFourOptions = DataFourOptions().trivia
     
     func displayQuestionsWithOptions(){
-        indexOfSelectedQuestion = GKRandomSource.sharedRandom().nextIntWithUpperBound(trivia.count)
-        let questionDictionary = trivia[indexOfSelectedQuestion]
-        questionField.text = questionDictionary["Question"]
+        indexOfSelectedQuestion = GKRandomSource.sharedRandom().nextIntWithUpperBound(dataFourOptions.count)
+        let questionDictionary = dataFourOptions[indexOfSelectedQuestion]
+        
+        //use optional binding with Guard here
+        
+        guard
+        let questionLiteral = questionDictionary["Question"],
+        let option1Literal = questionDictionary["Option1"],
+        let option2Literal = questionDictionary["Option2"],
+        let option3Literal = questionDictionary["Option3"],
+        let option4Literal = questionDictionary["Option4"]
+        else {return print("not a value")}// no idea what this means
+        
+        questionFieldFourOptions.text = questionLiteral
+        option1.setTitle(option1Literal, forState: UIControlState.Normal)
+        option2.setTitle(option2Literal, forState: .Normal)
+        option3.setTitle(option3Literal, forState: .Normal)
+        option4.setTitle(option4Literal, forState: .Normal)
+
+        
         playAgainButton.hidden = true
     }
+
+    //function for the Action Button
+    
+ 
     
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

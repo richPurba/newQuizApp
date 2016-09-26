@@ -16,13 +16,18 @@ struct DataTrivia{
         ["Question": "Camels are cannibalistic", "Answer": "False"],
         ["Question": "All ducks are birds", "Answer": "True"]
     ]
+    
+    ///////////////////////////////
+    ////////
+    //Subject for inquiry: the following declarations are supposed to be in CONTROLLER?
+    ///////////////////////////////
     let questionsPerRound = 4
     var questionsAsked = 0
     var correctQuestions = 0
     var indexOfSelectedQuestion: Int = 0
     
     var gameSound: SystemSoundID = 0
-
-  
+    /////////////////////////////////
+    /////////////////////////////////  
 }
 

@@ -8,7 +8,7 @@
 
 import Foundation
 struct DataFourOptions {
-    let trivia :[[String: String]] = [
+    let trivia:[[String: String]] = [
     ["Question": "This was the only US President to serve more than two consecutive terms.","Option1":"George Washington","Option2":"Franklin D. Roosevelt","Option3":"Woodrow Wilson","Option4":"Andrew Jackson","Answer": "2"],
     ["Question":"Which of the following countries has the most residents?",
         "Option1":"Nigeria",

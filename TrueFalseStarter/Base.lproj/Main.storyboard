@@ -9,7 +9,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="TrueFalseStarter" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="trueFalseQuestionsID" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="ViewController" customModule="TrueFalseStarter" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -99,7 +99,7 @@
         <!--View Controller-->
         <scene sceneID="jWA-rp-i3S">
             <objects>
-                <viewController id="9GL-e3-Vu5" customClass="ViewController" customModule="TrueFalseStarter" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="fourOptionsQuestionsID" useStoryboardIdentifierAsRestorationIdentifier="YES" id="9GL-e3-Vu5" customClass="ViewController" customModule="TrueFalseStarter" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="gUe-wI-kg2"/>
                         <viewControllerLayoutGuide type="bottom" id="cYi-V6-Qkh"/>
@@ -130,9 +130,6 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <state key="normal" title="Option 1"/>
-                                        <connections>
-                                            <action selector="checkAnswer:" destination="9GL-e3-Vu5" eventType="touchUpInside" id="mCW-kb-l01"/>
-                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B7r-83-tSW">
                                         <rect key="frame" x="0.0" y="63" width="311" height="32"/>
@@ -140,9 +137,6 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <state key="normal" title="Option 2"/>
-                                        <connections>
-                                            <action selector="checkAnswer:" destination="9GL-e3-Vu5" eventType="touchUpInside" id="EUR-qK-nLu"/>
-                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6UB-Or-xkL">
                                         <rect key="frame" x="0.0" y="125" width="311" height="32"/>
@@ -150,9 +144,6 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <state key="normal" title="Option 3"/>
-                                        <connections>
-                                            <action selector="checkAnswer:" destination="9GL-e3-Vu5" eventType="touchUpInside" id="ang-Bu-3rn"/>
-                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W9s-zN-Wzw">
                                         <rect key="frame" x="0.0" y="188" width="311" height="32"/>
@@ -160,9 +151,6 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <state key="normal" title="Option 4"/>
-                                        <connections>
-                                            <action selector="checkAnswer:" destination="9GL-e3-Vu5" eventType="touchUpInside" id="EO1-jg-UfW"/>
-                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
