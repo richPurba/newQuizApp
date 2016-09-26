@@ -12,19 +12,15 @@ import AudioToolbox
 
 class ViewController: UIViewController {
     
-    let questionsPerRound = 4
-    var questionsAsked = 0
-    var correctQuestions = 0
-    var indexOfSelectedQuestion: Int = 0
+    let trivia = DataTrivia().trivia
     
-    var gameSound: SystemSoundID = 0
+    let questionsPerRound = DataTrivia().questionsPerRound
+    var questionsAsked = DataTrivia().questionsAsked
+    var correctQuestions = DataTrivia().correctQuestions
+    var indexOfSelectedQuestion: Int = DataTrivia().indexOfSelectedQuestion
     
-    let trivia: [[String : String]] = [
-        ["Question": "Only female koalas can whistle", "Answer": "False"],
-        ["Question": "Blue whales are technically whales", "Answer": "True"],
-        ["Question": "Camels are cannibalistic", "Answer": "False"],
-        ["Question": "All ducks are birds", "Answer": "True"]
-    ]
+    var gameSound: SystemSoundID = DataTrivia().gameSound
+    
     
     @IBOutlet weak var questionField: UILabel!
     @IBOutlet weak var trueButton: UIButton!
