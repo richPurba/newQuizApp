@@ -30,7 +30,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var trueButton: UIButton!
     @IBOutlet weak var falseButton: UIButton!
     @IBOutlet weak var playAgainButton: UIButton!
-    
+    // there are two @IB for the 4 buttons: Outlet and ACtion
 
     override func viewDidLoad() {
         super.viewDidLoad()
