@@ -14,6 +14,7 @@
 		97093D461C913506001275BC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97093D441C913506001275BC /* LaunchScreen.storyboard */; };
 		97093D531C932116001275BC /* GameSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 97093D521C932116001275BC /* GameSound.wav */; };
 		A86812F21D990B89000F4266 /* DataFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = A86812F11D990B89000F4266 /* DataFile.swift */; };
+		A86812F41D992590000F4266 /* DataFileFourOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A86812F31D992590000F4266 /* DataFileFourOptions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		97093D471C913506001275BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		97093D521C932116001275BC /* GameSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = GameSound.wav; sourceTree = "<group>"; };
 		A86812F11D990B89000F4266 /* DataFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataFile.swift; sourceTree = "<group>"; };
+		A86812F31D992590000F4266 /* DataFileFourOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataFileFourOptions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 				97093D3D1C913506001275BC /* ViewController.swift */,
 				97093D3F1C913506001275BC /* Main.storyboard */,
 				A86812F11D990B89000F4266 /* DataFile.swift */,
+				A86812F31D992590000F4266 /* DataFileFourOptions.swift */,
 				97093D421C913506001275BC /* Assets.xcassets */,
 				97093D441C913506001275BC /* LaunchScreen.storyboard */,
 				97093D471C913506001275BC /* Info.plist */,
@@ -144,6 +147,7 @@
 			files = (
 				A86812F21D990B89000F4266 /* DataFile.swift in Sources */,
 				97093D3E1C913506001275BC /* ViewController.swift in Sources */,
+				A86812F41D992590000F4266 /* DataFileFourOptions.swift in Sources */,
 				97093D3C1C913506001275BC /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

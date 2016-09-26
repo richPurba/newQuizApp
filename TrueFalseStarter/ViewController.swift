@@ -27,13 +27,15 @@ class ViewController: UIViewController {
     @IBOutlet weak var falseButton: UIButton!
     @IBOutlet weak var playAgainButton: UIButton!
     // there are two @IB for the 4 buttons: Outlet and ACtion
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         loadGameStartSound()
         // Start game
         playGameStartSound()
-        displayQuestion()
+        displayQuestionTrueFalse()
     }
 
     override func didReceiveMemoryWarning() {
@@ -41,7 +43,7 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func displayQuestion() {
+    func displayQuestionTrueFalse() {//renaming the question for true false
         indexOfSelectedQuestion = GKRandomSource.sharedRandom().nextIntWithUpperBound(trivia.count)
         let questionDictionary = trivia[indexOfSelectedQuestion]
         questionField.text = questionDictionary["Question"]
@@ -83,7 +85,7 @@ class ViewController: UIViewController {
             displayScore()
         } else {
             // Continue game
-            displayQuestion()
+            displayQuestionTrueFalse()
         }
     }
     
@@ -122,5 +124,31 @@ class ViewController: UIViewController {
     func playGameStartSound() {
         AudioServicesPlaySystemSound(gameSound)
     }
+    
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////This Area is for the Controller of 4 Options view///////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //Creating  Outlet for Sample Question, Option1, Option2, Option3, Option4, Play Again
+    
+    @IBOutlet weak var questionFieldFourOptions: UILabel!
+    @IBOutlet weak var option1: UIButton!
+    @IBOutlet weak var option2: UIButton!
+    @IBOutlet weak var option3: UIButton!
+    @IBOutlet weak var option4: UIButton!
+    
+    
+    
+    func displayQuestionsWithOptions(){
+        indexOfSelectedQuestion = GKRandomSource.sharedRandom().nextIntWithUpperBound(trivia.count)
+        let questionDictionary = trivia[indexOfSelectedQuestion]
+        questionField.text = questionDictionary["Question"]
+        playAgainButton.hidden = true
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
 

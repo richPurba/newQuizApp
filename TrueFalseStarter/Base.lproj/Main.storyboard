@@ -94,6 +94,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="236.5" y="241.5"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="jWA-rp-i3S">
@@ -107,15 +108,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sample Question" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="7" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kzO-dI-xrD">
-                                <rect key="frame" x="33" y="80" width="308" height="50"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="f9g-rP-gAa"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="16"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hgu-gJ-8EP">
                                 <rect key="frame" x="32" y="373" width="313" height="50"/>
                                 <color key="backgroundColor" red="0.0" green="0.57647058819999997" blue="0.52941176469999995" alpha="1" colorSpace="calibratedRGB"/>
@@ -178,6 +170,15 @@
                                     <constraint firstItem="B7r-83-tSW" firstAttribute="top" secondItem="5En-YT-JMY" secondAttribute="bottom" constant="31" id="fPO-dw-pQA"/>
                                 </constraints>
                             </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sample Question" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="7" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kzO-dI-xrD">
+                                <rect key="frame" x="33" y="80" width="308" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="f9g-rP-gAa"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="16"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.031372549020000001" green="0.16862745100000001" blue="0.24313725489999999" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -195,14 +196,17 @@
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <outlet property="falseButton" destination="B7r-83-tSW" id="HRO-n8-K5x"/>
+                        <outlet property="option1" destination="5En-YT-JMY" id="see-YK-Ufe"/>
+                        <outlet property="option2" destination="B7r-83-tSW" id="S9f-le-K5C"/>
+                        <outlet property="option3" destination="6UB-Or-xkL" id="ltw-wb-vd1"/>
+                        <outlet property="option4" destination="W9s-zN-Wzw" id="4Me-wc-Og0"/>
                         <outlet property="playAgainButton" destination="hgu-gJ-8EP" id="Zau-Qe-4ag"/>
-                        <outlet property="trueButton" destination="5En-YT-JMY" id="Ijv-S3-KfS"/>
+                        <outlet property="questionFieldFourOptions" destination="kzO-dI-xrD" id="KID-JD-sP6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kS0-js-dhv" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="827.5" y="432.5"/>
+            <point key="canvasLocation" x="632.5" y="241.5"/>
         </scene>
     </scenes>
 </document>
