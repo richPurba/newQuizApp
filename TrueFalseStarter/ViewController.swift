@@ -44,7 +44,7 @@ class ViewController: UIViewController {
     }
     
     func displayingTheQuestions(){
-        let pickingRandomGuess = GKRandomSource().nextIntWithUpperBound(2)
+        let pickingRandomGuess = 1
         // i do think that 2 is not a magic number
         if(pickingRandomGuess == 0){
             displayQuestionTrueFalse()
