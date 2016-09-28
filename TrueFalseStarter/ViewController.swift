@@ -20,12 +20,18 @@ class ViewController: UIViewController {
     var indexOfSelectedQuestion: Int = DataTrivia().indexOfSelectedQuestion
     
     var gameSound: SystemSoundID = DataTrivia().gameSound
+    var selectingTypeOfQuiz: Int = 0
     
+    var triviaFourOptions = DataFourOptions().trivia
+    var indexOfSelectedQuestion2: Int = 0
     
     @IBOutlet weak var questionField: UILabel!
     @IBOutlet weak var trueButton: UIButton!
     @IBOutlet weak var falseButton: UIButton!
     @IBOutlet weak var playAgainButton: UIButton!
+    
+
+    
     // there are two @IB for the 4 buttons: Outlet and ACtion
     
     
@@ -35,29 +41,28 @@ class ViewController: UIViewController {
         loadGameStartSound()
         // Start game
         playGameStartSound()
-        displayingTheQuestions()// displaying randomly the questions, either true-false, or 4 options
+        displayQuestion()
+
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+ 
     
-    func displayingTheQuestions(){
-        let pickingRandomGuess = 1
-        // i do think that 2 is not a magic number
-        if(pickingRandomGuess == 0){
-            displayQuestionTrueFalse()
-        } else{
-            displayQuestionsWithOptions()
+    func displayQuestion() {//renaming the question for true false
+         selectingTypeOfQuiz = GKRandomSource.sharedRandom().nextIntWithUpperBound(2)
+        if selectingTypeOfQuiz == 0{
+            indexOfSelectedQuestion = GKRandomSource.sharedRandom().nextIntWithUpperBound(trivia.count)
+            let questionDictionary = trivia[indexOfSelectedQuestion]
+            questionField.text = questionDictionary["Question"]
+
+        } else if selectingTypeOfQuiz == 1 {
+            indexOfSelectedQuestion2 = GKRandomSource.sharedRandom().nextIntWithUpperBound(triviaFourOptions.count)
+            let fourOptionsQuestionDictonary = triviaFourOptions[indexOfSelectedQuestion2]
+            questionFieldFourOptions.text = fourOptionsQuestionDictonary["Question"]
         }
-    }
-    
-    func displayQuestionTrueFalse() {//renaming the question for true false
-        indexOfSelectedQuestion = GKRandomSource.sharedRandom().nextIntWithUpperBound(trivia.count)
-        let questionDictionary = trivia[indexOfSelectedQuestion]
-        let checkThis = questionDictionary["Question"]
-        questionField.text = checkThis
         playAgainButton.hidden = true
     }
     
@@ -96,7 +101,7 @@ class ViewController: UIViewController {
             displayScore()
         } else {
             // Continue game
-            displayQuestionTrueFalse()
+            displayQuestion()
         }
     }
     
@@ -136,51 +141,18 @@ class ViewController: UIViewController {
         AudioServicesPlaySystemSound(gameSound)
     }
     
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////This Area is for the Controller of 4 Options view///////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////
+    ////This Area is for the Controller of 4 Options view ///////////////////////////////////////////////
+    /////////////////////////////////////////////////////////
     //Creating  Outlet for Sample Question, Option1, Option2, Option3, Option4, Play Again
     
-    @IBOutlet weak var questionFieldFourOptions: UILabel!
-    @IBOutlet weak var option1: UIButton!
-    @IBOutlet weak var option2: UIButton!
-    @IBOutlet weak var option3: UIButton!
-    @IBOutlet weak var option4: UIButton!
-    
-    let dataFourOptions = DataFourOptions().trivia
-    
-    func displayQuestionsWithOptions(){
-        indexOfSelectedQuestion = GKRandomSource.sharedRandom().nextIntWithUpperBound(dataFourOptions.count)
-        let questionDictionary = dataFourOptions[indexOfSelectedQuestion]
-        
-        //use optional binding with Guard here
-        
-        guard
-        let questionLiteral = questionDictionary["Question"],
-        let option1Literal = questionDictionary["Option1"],
-        let option2Literal = questionDictionary["Option2"],
-        let option3Literal = questionDictionary["Option3"],
-        let option4Literal = questionDictionary["Option4"]
-        else {return print("not a value")}// no idea what this means
-        
-        questionFieldFourOptions.text = questionLiteral
-        option1.setTitle(option1Literal, forState: UIControlState.Normal)
-        option2.setTitle(option2Literal, forState: .Normal)
-        option3.setTitle(option3Literal, forState: .Normal)
-        option4.setTitle(option4Literal, forState: .Normal)
 
-        
-        playAgainButton.hidden = true
-    }
-
-    //function for the Action Button
     
  
     
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////
 }
-
