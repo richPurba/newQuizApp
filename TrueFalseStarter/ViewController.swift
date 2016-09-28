@@ -11,30 +11,31 @@ import GameKit
 import AudioToolbox
 
 class ViewController: UIViewController {
+
     
-    let trivia = DataTrivia().trivia
+    var selectingTypeOfQuiz = GKRandomSource.sharedRandom().nextIntWithUpperBound(2)
     
+  
     let questionsPerRound = DataTrivia().questionsPerRound
     var questionsAsked = DataTrivia().questionsAsked
     var correctQuestions = DataTrivia().correctQuestions
     var indexOfSelectedQuestion: Int = DataTrivia().indexOfSelectedQuestion
     
     var gameSound: SystemSoundID = DataTrivia().gameSound
-    var selectingTypeOfQuiz: Int = 0
     
-    var triviaFourOptions = DataFourOptions().trivia
-    var indexOfSelectedQuestion2: Int = 0
     
-    @IBOutlet weak var questionField: UILabel!
-    @IBOutlet weak var trueButton: UIButton!
-    @IBOutlet weak var falseButton: UIButton!
-    @IBOutlet weak var playAgainButton: UIButton!
+// renaming the Outlet to accomodate 4 options
     
 
+    @IBOutlet weak var outPutQuestion: UILabel!
+    @IBOutlet weak var showAnswer: UILabel!
+    @IBOutlet weak var option1: UIButton!
+    @IBOutlet weak var option2: UIButton!
+    @IBOutlet weak var option3: UIButton!
+    @IBOutlet weak var option4: UIButton!
+    @IBOutlet weak var playAgain: UIButton!
     
-    // there are two @IB for the 4 buttons: Outlet and ACtion
-    
-    
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,44 +53,38 @@ class ViewController: UIViewController {
  
     
     func displayQuestion() {//renaming the question for true false
-         selectingTypeOfQuiz = GKRandomSource.sharedRandom().nextIntWithUpperBound(2)
-        if selectingTypeOfQuiz == 0{
-            indexOfSelectedQuestion = GKRandomSource.sharedRandom().nextIntWithUpperBound(trivia.count)
-            let questionDictionary = trivia[indexOfSelectedQuestion]
-            questionField.text = questionDictionary["Question"]
-
-        } else if selectingTypeOfQuiz == 1 {
-            indexOfSelectedQuestion2 = GKRandomSource.sharedRandom().nextIntWithUpperBound(triviaFourOptions.count)
-            let fourOptionsQuestionDictonary = triviaFourOptions[indexOfSelectedQuestion2]
-            questionFieldFourOptions.text = fourOptionsQuestionDictonary["Question"]
-        }
-        playAgainButton.hidden = true
+            indexOfSelectedQuestion = GKRandomSource.sharedRandom().nextIntWithUpperBound(returningTrivia().count)
+            let questionDictionary = returningTrivia()[indexOfSelectedQuestion]
+            outPutQuestion.text = questionDictionary["Question"]
+               playAgain.hidden = true
     }
     
     func displayScore() {
         // Hide the answer buttons
-        trueButton.hidden = true
-        falseButton.hidden = true
+        option1.hidden = true
+        option2.hidden = true
         
         // Display play again button
-        playAgainButton.hidden = false
+        playAgain.hidden = false
         
-        questionField.text = "Way to go!\nYou got \(correctQuestions) out of \(questionsPerRound) correct!"
+        outPutQuestion.text = "Way to go!\nYou got \(correctQuestions) out of \(questionsPerRound) correct!"
         
     }
+    
+    // this need to rework for 4 options
     
     @IBAction func checkAnswer(sender: UIButton) {
         // Increment the questions asked counter
         questionsAsked += 1
         
-        let selectedQuestionDict = trivia[indexOfSelectedQuestion]
+        let selectedQuestionDict = returningTrivia()[indexOfSelectedQuestion]
         let correctAnswer = selectedQuestionDict["Answer"]
         
-        if (sender === trueButton &&  correctAnswer == "True") || (sender === falseButton && correctAnswer == "False") {
+        if (sender === option1 &&  correctAnswer == "True") || (sender === option2 && correctAnswer == "False") {
             correctQuestions += 1
-            questionField.text = "Correct!"
+            outPutQuestion.text = "Correct!"
         } else {
-            questionField.text = "Sorry, wrong answer!"
+            outPutQuestion.text = "Sorry, wrong answer!"
         }
         
         loadNextRoundWithDelay(seconds: 2)
@@ -104,18 +99,19 @@ class ViewController: UIViewController {
             displayQuestion()
         }
     }
-    
-    @IBAction func playAgain() {
+    // need to rework for 4 options
         // Show the answer buttons
-        trueButton.hidden = false
-        falseButton.hidden = false
+    
+    @IBAction func playAgainOption() {
+        option1.hidden = false
+        option2.hidden = false
         
         questionsAsked = 0
         correctQuestions = 0
         nextRound()
-    }
+        
+}
     
-
     
     // MARK: Helper Methods
     
@@ -140,19 +136,18 @@ class ViewController: UIViewController {
     func playGameStartSound() {
         AudioServicesPlaySystemSound(gameSound)
     }
+  
     
-    /////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////
-    ////This Area is for the Controller of 4 Options view ///////////////////////////////////////////////
-    /////////////////////////////////////////////////////////
-    //Creating  Outlet for Sample Question, Option1, Option2, Option3, Option4, Play Again
-    
-
-    
- 
-    
-    /////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////
+    // Helper method to pick randomly true-false or multiple choices and return the type of trivia
+    func returningTrivia()-> [[String:String]]{
+        var questions = [[String: String]]()
+        
+        if (selectingTypeOfQuiz == 0) {// True False question
+            questions = DataTrivia().trivia
+        } else if selectingTypeOfQuiz == 1 { // Multiple Choices
+            questions = DataFourOptions().trivia
+            
+        }
+        return questions
+    }
 }
