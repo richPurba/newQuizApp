@@ -12,18 +12,14 @@ import AudioToolbox
 
 class ViewController: UIViewController {
 
-    
-    var selectingTypeOfQuiz = GKRandomSource.sharedRandom().nextIntWithUpperBound(2)
-    
-  
-    let questionsPerRound = DataTrivia().questionsPerRound
-    var questionsAsked = DataTrivia().questionsAsked
-    var correctQuestions = DataTrivia().correctQuestions
-    var indexOfSelectedQuestion: Int = DataTrivia().indexOfSelectedQuestion
-    
-    var gameSound: SystemSoundID = DataTrivia().gameSound
-    
-    
+            
+    let questionsPerRound: Int = 4
+    var questionsAsked: Int = 0
+    var correctQuestions: Int = 0
+    var indexOfSelectedQuestion: Int = 0
+    var gameSound: SystemSoundID = 0
+
+    var triviaCollection = DataTrivia().returningTrivia()
 // renaming the Outlet to accomodate 4 options
     
 
@@ -43,6 +39,7 @@ class ViewController: UIViewController {
         // Start game
         playGameStartSound()
         displayQuestion()
+        displayOptions()
 
     }
 
@@ -50,14 +47,37 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
- 
+
+    
+   
     
     func displayQuestion() {//renaming the question for true false
-            indexOfSelectedQuestion = GKRandomSource.sharedRandom().nextIntWithUpperBound(returningTrivia().count)
-            let questionDictionary = returningTrivia()[indexOfSelectedQuestion]
-            outPutQuestion.text = questionDictionary["Question"]
-               playAgain.hidden = true
+        indexOfSelectedQuestion = GKRandomSource.sharedRandom().nextIntWithUpperBound(triviaCollection.count)
+        let trivia = triviaCollection[indexOfSelectedQuestion]
+        outPutQuestion.text = trivia["Question"]
+        playAgain.hidden = true
     }
+    
+    func displayOptions(){
+        let trivia = triviaCollection[indexOfSelectedQuestion]
+        
+        if trivia.count == 2{//meaning that this is the anatomy of True False DataModel
+            option1.setTitle("True", forState: .Normal)
+            option2.setTitle("False", forState: .Normal)
+            option3.hidden = true
+            option4.hidden = true
+        } else {
+            option3.hidden = false
+            option4.hidden = false
+            
+            option1.setTitle(returningTriviaValues(trivia, keyword: "Option1"), forState: .Normal)
+            option2.setTitle(returningTriviaValues(trivia, keyword: "Option2"), forState: .Normal)
+            option3.setTitle(returningTriviaValues(trivia, keyword: "Option3"), forState: .Normal)
+            option4.setTitle(returningTriviaValues(trivia, keyword: "Option4"), forState: .Normal)
+        }
+    }
+    
+    
     
     func displayScore() {
         // Hide the answer buttons
@@ -77,8 +97,9 @@ class ViewController: UIViewController {
         // Increment the questions asked counter
         questionsAsked += 1
         
-        let selectedQuestionDict = returningTrivia()[indexOfSelectedQuestion]
-        let correctAnswer = selectedQuestionDict["Answer"]
+        let trivia = triviaCollection[indexOfSelectedQuestion]
+        
+        let correctAnswer = returningTriviaValues(trivia, keyword: "Answer")
         
         if (sender === option1 &&  correctAnswer == "True") || (sender === option2 && correctAnswer == "False") {
             correctQuestions += 1
@@ -88,6 +109,9 @@ class ViewController: UIViewController {
         }
         
         loadNextRoundWithDelay(seconds: 2)
+        
+        //restarting the collection to retrive new type of questions
+         triviaCollection = DataTrivia().returningTrivia()
     }
     
     func nextRound() {
@@ -139,15 +163,13 @@ class ViewController: UIViewController {
   
     
     // Helper method to pick randomly true-false or multiple choices and return the type of trivia
-    func returningTrivia()-> [[String:String]]{
-        var questions = [[String: String]]()
-        
-        if (selectingTypeOfQuiz == 0) {// True False question
-            questions = DataTrivia().trivia
-        } else if selectingTypeOfQuiz == 1 { // Multiple Choices
-            questions = DataFourOptions().trivia
-            
-        }
-        return questions
+    
+    func returningTriviaValues(withCollection: [String:String],keyword: String) -> String?{
+        return withCollection[keyword]
     }
-}
+    func returningTriviaCollection(withCollection: [[String:String]])->[String:String]{
+     let selectingWhichTrivia = GKRandomSource.sharedRandom().nextIntWithUpperBound(withCollection.count)// 0 for True or False, 1 for Multiple choices
+    return withCollection[selectingWhichTrivia]
+    }
+    
+   }
