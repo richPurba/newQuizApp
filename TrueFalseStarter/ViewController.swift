@@ -13,11 +13,14 @@ import AudioToolbox
 class ViewController: UIViewController {
 
             
-    let questionsPerRound: Int = 10
+    let questionsPerRound: Int = 4
     var questionsAsked: Int = 0
     var correctQuestions: Int = 0
     var indexOfSelectedQuestion: Int = 0
     var gameSound: SystemSoundID = 0
+    var wrongSound: SystemSoundID = 0
+    var goodSound: SystemSoundID = 0
+    var finalResult: SystemSoundID = 0
     var arrayForPostedQuestions: [String] = []
     var triviaCollection: [[String:String]] = []
 // renaming the Outlet to accomodate 4 options
@@ -145,8 +148,10 @@ class ViewController: UIViewController {
         if (sender === option1 &&  correctAnswer == currentTitleOption1) || (sender === option2 && correctAnswer == currentTitleOption2) || (sender === option3 && correctAnswer == currentTitleOption3) || (sender === option4 && correctAnswer == currentTitleOption4){
             correctQuestions += 1
             showAnswer.text = "Correct!"
+            playGoodSound()
         } else {
             showAnswer.text = "Sorry, wrong answer!"
+            playWrongSound()
         }
         
         loadNextRoundWithDelay(seconds: 2)
@@ -158,6 +163,7 @@ class ViewController: UIViewController {
         if questionsAsked == questionsPerRound {
             // Game is over
             displayScore()
+            playFinalResultSound()
             //removing the values for checking the already posted questions
             arrayForPostedQuestions.removeAll()
         } else {
@@ -197,12 +203,33 @@ class ViewController: UIViewController {
         let pathToSoundFile = NSBundle.mainBundle().pathForResource("GameSound", ofType: "wav")
         let soundURL = NSURL(fileURLWithPath: pathToSoundFile!)
         AudioServicesCreateSystemSoundID(soundURL, &gameSound)
+        
+        let pathToSoundFileWrongSound = NSBundle.mainBundle().pathForResource("wrongAnswer", ofType: "wav")
+        let soundURLWrongSound = NSURL(fileURLWithPath: pathToSoundFileWrongSound!)
+        AudioServicesCreateSystemSoundID(soundURLWrongSound, &wrongSound)
+        
+        let pathToSoundFileGoodSound = NSBundle.mainBundle().pathForResource("goodAnswer", ofType: "wav")
+        let soundURLGoodSound = NSURL(fileURLWithPath: pathToSoundFileGoodSound!)
+        AudioServicesCreateSystemSoundID(soundURLGoodSound, &goodSound)
+        
+        let pathToSoundFileFinalResult = NSBundle.mainBundle().pathForResource("finalResult", ofType: "wav")
+        let soundURLFinalResult = NSURL(fileURLWithPath: pathToSoundFileFinalResult!)
+        AudioServicesCreateSystemSoundID(soundURLFinalResult, &finalResult)
+        
     }
     
     func playGameStartSound() {
         AudioServicesPlaySystemSound(gameSound)
     }
-  
+    func playWrongSound(){
+        AudioServicesPlaySystemSound(wrongSound)
+    }
+    func playGoodSound(){
+        AudioServicesPlaySystemSound(goodSound)
+    }
+    func playFinalResultSound(){
+        AudioServicesPlaySystemSound(finalResult)
+    }
     
     // Helper method to pick randomly true-false or multiple choices and return the type of trivia
     
