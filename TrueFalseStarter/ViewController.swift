@@ -25,8 +25,8 @@ class ViewController: UIViewController {
     var triviaCollection: [[String:String]] = []
     var answerCheck = false
     var timerCount = NSTimer()
-    var counterTimer = 15
-// renaming the Outlet to accomodate 4 options
+    var counterTimer = 16// this is actually for 15 seconds rule
+    var buttonsOptionClicked = false
     
 
     @IBOutlet weak var outPutQuestion: UILabel!
@@ -49,9 +49,9 @@ class ViewController: UIViewController {
         displayQuestion()
         displayOptions()
         buttonsDesignDefault()
-        outputTimer()
         
-        loadNextRoundWithDelay(seconds: 15)
+        outputTimer()
+       
     }
 
     override func didReceiveMemoryWarning() {
@@ -76,18 +76,18 @@ class ViewController: UIViewController {
             
             // mechanism to recheck the question hasn't been asked before
             var counter = 0
+           
             
-            while counter == 0 {
+            while counter < arrayForPostedQuestions.count {
                 for storedQuestion in arrayForPostedQuestions{
                     if trivia["Question"] == storedQuestion{
                         counter = 0
-                        
                         indexOfSelectedQuestion = GKRandomSource.sharedRandom().nextIntWithUpperBound(triviaCollection.count)
                         trivia = triviaCollection[indexOfSelectedQuestion]
                         break// break the for loop and start all over again
                     }
+                    counter += 1
                 }
-                counter = 1//trivia is okay, no recurring question
             }
                     }
         outPutQuestion.text = trivia["Question"]
@@ -95,6 +95,7 @@ class ViewController: UIViewController {
         playAgain.hidden = true
         showAnswer.hidden = true
         theCorrectAnswer.hidden = true
+        
     }
     
     func displayOptions(){
@@ -120,6 +121,7 @@ class ViewController: UIViewController {
             option3.setTitle(returningTriviaValues(trivia, keyword: "Option3"), forState: .Normal)
             option4.setTitle(returningTriviaValues(trivia, keyword: "Option4"), forState: .Normal)
         }
+        
     }
     
     
@@ -130,6 +132,7 @@ class ViewController: UIViewController {
         option2.hidden = true
         option3.hidden = true
         option4.hidden = true
+        timer.hidden = true
 
         
         // Display play again button
@@ -169,6 +172,7 @@ class ViewController: UIViewController {
             correctQuestions += 1
             
             playGoodSound()
+            
             //desing of Correct font
             answerCheck = true
             designShowAnswerButton(with: answerCheck)
@@ -184,13 +188,14 @@ class ViewController: UIViewController {
             theCorrectAnswer.text = text
         }
         
+        loadNextRoundWithDelay(seconds: 2)
         
     }
     
     
     
     func nextRound() {
-        counterTimer = 15 // setting back to lightning mode;
+        
         
         if questionsAsked == questionsPerRound {
             // Game is over
@@ -204,7 +209,7 @@ class ViewController: UIViewController {
             // Continue game
             displayQuestion()
             displayOptions()
-            
+            counterTimer = 16 // setting back to lightning mode;
             
             //change the buttons color back to normal
             buttonsDesignDefault()
@@ -224,6 +229,9 @@ class ViewController: UIViewController {
         correctQuestions = 0
         nextRound()
         
+        timer.hidden = false
+        counterTimer = 16 // setting back to lightning mode;
+        
 }
 
     // MARK: Helper Methods
@@ -237,6 +245,9 @@ class ViewController: UIViewController {
         dispatch_after(dispatchTime, dispatch_get_main_queue()) {
             self.nextRound()
         }
+        
+        //outputTimer()// the label of Timer
+        //respondToUnansweredQuestion()
     }
     
     func loadGameStartSound() {
@@ -294,7 +305,8 @@ class ViewController: UIViewController {
         option2.backgroundColor = color
         option3.backgroundColor = color
         option4.backgroundColor = color
-        
+       
+        buttonsOptionClicked = false
     }
     
     func buttonDesignWhenClicked(clickedButton: UIButton){
@@ -314,6 +326,8 @@ class ViewController: UIViewController {
             option3.backgroundColor = color
         default: print("Error")
         }
+        buttonsOptionClicked = true
+        
     }
     func designShowAnswerButton (with answer: Bool){
 
@@ -335,11 +349,24 @@ class ViewController: UIViewController {
     }
     
     func outputTimer(){
-        timerCount = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(ViewController.updateCounter), userInfo: nil, repeats: true)
+        if questionsAsked != questionsPerRound{//preventing that at the end of the round, the timer ticks
+            timerCount = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(ViewController.updateCounter), userInfo: nil, repeats: true) }
+        
     }
     func updateCounter(){
-        counterTimer -= 1
-        timer.text = String(counterTimer)
+        if counterTimer > 0 {
+            counterTimer -= 1
+            timer.text = String(counterTimer)
+        } else {
+            
+            theCorrectAnswer.hidden = false
+            let didnotAnswer = "You didn't answer anything"
+            theCorrectAnswer.text = didnotAnswer
+            questionsAsked += 1
+            nextRound()
+
+        }
     }
+    
     
 }
