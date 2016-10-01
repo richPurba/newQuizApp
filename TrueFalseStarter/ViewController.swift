@@ -23,6 +23,7 @@ class ViewController: UIViewController {
     var finalResult: SystemSoundID = 0
     var arrayForPostedQuestions: [String] = []
     var triviaCollection: [[String:String]] = []
+    var answerCheck = false
 // renaming the Outlet to accomodate 4 options
     
 
@@ -33,6 +34,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var option3: UIButton!
     @IBOutlet weak var option4: UIButton!
     @IBOutlet weak var playAgain: UIButton!
+    @IBOutlet weak var theCorrectAnswer: UILabel!
     
 
 
@@ -43,7 +45,7 @@ class ViewController: UIViewController {
         playGameStartSound()
         displayQuestion()
         displayOptions()
-        buttonsDesign()
+        buttonsDesignDefault()
     }
 
     override func didReceiveMemoryWarning() {
@@ -86,6 +88,7 @@ class ViewController: UIViewController {
         arrayForPostedQuestions.append(trivia["Question"]!)
         playAgain.hidden = true
         showAnswer.hidden = true
+        theCorrectAnswer.hidden = true
     }
     
     func displayOptions(){
@@ -135,24 +138,45 @@ class ViewController: UIViewController {
     @IBAction func checkAnswer(sender: UIButton) {
         // Increment the questions asked counter
         questionsAsked += 1
+        
         showAnswer.hidden = false
+        
+        
+    // changing the color of the unclicked buttons:
+        buttonDesignWhenClicked(sender)
+        
         let trivia = triviaCollection[indexOfSelectedQuestion]
         
         let correctAnswer = returningTriviaValues(trivia, keyword: "Answer")
-        
         let currentTitleOption1 = option1.currentTitle
         let currentTitleOption2 = option2.currentTitle
         let currentTitleOption3 = option3.currentTitle
         let currentTitleOption4 = option4.currentTitle
         
-        if (sender === option1 &&  correctAnswer == currentTitleOption1) || (sender === option2 && correctAnswer == currentTitleOption2) || (sender === option3 && correctAnswer == currentTitleOption3) || (sender === option4 && correctAnswer == currentTitleOption4){
+        let qualifierOption1 = (sender === option1 &&  correctAnswer == currentTitleOption1)
+        let qualifierOption2 = (sender === option2 && correctAnswer == currentTitleOption2)
+        let qualifierOption3 = (sender === option3 && correctAnswer == currentTitleOption3)
+        let qualifierOption4 = (sender === option4 && correctAnswer == currentTitleOption4)
+       
+        if  qualifierOption1 || qualifierOption2 || qualifierOption3 || qualifierOption4{
             correctQuestions += 1
-            showAnswer.text = "Correct!"
+            
             playGoodSound()
+            //desing of Correct font
+            answerCheck = true
+            designShowAnswerButton(with: answerCheck)
         } else {
-            showAnswer.text = "Sorry, wrong answer!"
+            
             playWrongSound()
+            //design of Wrong font
+            answerCheck = false
+            designShowAnswerButton(with: answerCheck)
+            // showing the answer
+            theCorrectAnswer.hidden = false
+            let text = "The answer: " + correctAnswer!
+            theCorrectAnswer.text = text
         }
+        
         
         loadNextRoundWithDelay(seconds: 2)
     }
@@ -166,10 +190,20 @@ class ViewController: UIViewController {
             playFinalResultSound()
             //removing the values for checking the already posted questions
             arrayForPostedQuestions.removeAll()
+            
+            showAnswer.hidden = true
         } else {
             // Continue game
             displayQuestion()
             displayOptions()
+            
+            
+            //change the buttons color back to normal
+            buttonsDesignDefault()
+            
+            //change the showAnswer button color back to normal
+            defaultDesignShowAnswerButton()
+           // theCorrectAnswer.hidden = true
         }
     }
     
@@ -241,14 +275,57 @@ class ViewController: UIViewController {
     return withCollection[selectingWhichTrivia]
     }
     
-    func buttonsDesign(){
+    func buttonsDesignDefault(){
         let cornerRadius: CGFloat = 7.0
+        let color = UIColor(red: 0.40, green: 0.80, blue: 1.00, alpha: 1.0)
         option1.layer.cornerRadius = cornerRadius
         option2.layer.cornerRadius = cornerRadius
         option3.layer.cornerRadius = cornerRadius
         option4.layer.cornerRadius = cornerRadius
         playAgain.layer.cornerRadius = cornerRadius
+        
+        option1.backgroundColor = color
+        option2.backgroundColor = color
+        option3.backgroundColor = color
+        option4.backgroundColor = color
+        
     }
+    
+    func buttonDesignWhenClicked(clickedButton: UIButton){
+        let color = UIColor(red: 0.16, green: 0.58, blue: 0.75, alpha: 1.0)
+        switch clickedButton{
+        case option1: option2.backgroundColor = color
+            option3.backgroundColor = color
+            option4.backgroundColor = color
+        case option2: option1.backgroundColor = color
+            option3.backgroundColor = color
+            option4.backgroundColor = color
+        case option3: option1.backgroundColor = color
+            option2.backgroundColor = color
+            option4.backgroundColor = color
+        case option4: option1.backgroundColor = color
+            option2.backgroundColor = color
+            option3.backgroundColor = color
+        default: print("Error")
+        }
+    }
+    func designShowAnswerButton (with answer: Bool){
 
+        let colorFalse = UIColor(red: 0.8, green: 0.2, blue: 0.0, alpha: 1.0)
+        let colorTrue = UIColor(red: 0.2, green: 0.8, blue: 0.4, alpha: 1.0)
+        
+        
+        if answer == true {
+            showAnswer.textColor =  colorTrue
+            showAnswer.text = "Correct!"
+        } else if answer == false{
+            showAnswer.textColor = colorFalse
+            showAnswer.text = "Sorry, wrong answer!"
+        }
+    }
+    
+    func defaultDesignShowAnswerButton(){
+        showAnswer.tintColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+    }
     
 }
