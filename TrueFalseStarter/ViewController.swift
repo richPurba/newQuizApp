@@ -24,6 +24,8 @@ class ViewController: UIViewController {
     var arrayForPostedQuestions: [String] = []
     var triviaCollection: [[String:String]] = []
     var answerCheck = false
+    var timerCount = NSTimer()
+    var counterTimer = 15
 // renaming the Outlet to accomodate 4 options
     
 
@@ -35,6 +37,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var option4: UIButton!
     @IBOutlet weak var playAgain: UIButton!
     @IBOutlet weak var theCorrectAnswer: UILabel!
+    @IBOutlet weak var timer: UILabel!
     
 
 
@@ -46,6 +49,9 @@ class ViewController: UIViewController {
         displayQuestion()
         displayOptions()
         buttonsDesignDefault()
+        outputTimer()
+        
+        loadNextRoundWithDelay(seconds: 15)
     }
 
     override func didReceiveMemoryWarning() {
@@ -137,6 +143,7 @@ class ViewController: UIViewController {
     
     @IBAction func checkAnswer(sender: UIButton) {
         // Increment the questions asked counter
+        
         questionsAsked += 1
         
         showAnswer.hidden = false
@@ -178,12 +185,13 @@ class ViewController: UIViewController {
         }
         
         
-        loadNextRoundWithDelay(seconds: 2)
     }
     
     
     
     func nextRound() {
+        counterTimer = 15 // setting back to lightning mode;
+        
         if questionsAsked == questionsPerRound {
             // Game is over
             displayScore()
@@ -203,7 +211,6 @@ class ViewController: UIViewController {
             
             //change the showAnswer button color back to normal
             defaultDesignShowAnswerButton()
-           // theCorrectAnswer.hidden = true
         }
     }
     
@@ -223,10 +230,9 @@ class ViewController: UIViewController {
     
     func loadNextRoundWithDelay(seconds seconds: Int) {
         // Converts a delay in seconds to nanoseconds as signed 64 bit integer
-        let delay = Int64(NSEC_PER_SEC * UInt64(seconds))
+        let delay = Int64(NSEC_PER_SEC * UInt64(seconds)) 
         // Calculates a time value to execute the method given current time and delay
         let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, delay)
-        
         // Executes the nextRound method at the dispatch time on the main queue
         dispatch_after(dispatchTime, dispatch_get_main_queue()) {
             self.nextRound()
@@ -326,6 +332,14 @@ class ViewController: UIViewController {
     
     func defaultDesignShowAnswerButton(){
         showAnswer.tintColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+    }
+    
+    func outputTimer(){
+        timerCount = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(ViewController.updateCounter), userInfo: nil, repeats: true)
+    }
+    func updateCounter(){
+        counterTimer -= 1
+        timer.text = String(counterTimer)
     }
     
 }
