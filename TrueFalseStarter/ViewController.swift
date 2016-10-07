@@ -13,7 +13,7 @@ import AudioToolbox
 class ViewController: UIViewController {
 
             
-    let questionsPerRound: Int = 4
+    let questionsPerRound: Int = 10
     var questionsAsked: Int = 0
     var correctQuestions: Int = 0
     var indexOfSelectedQuestion: Int = 0
@@ -99,7 +99,7 @@ class ViewController: UIViewController {
     }
     
     func displayOptions(){
-
+        hidingOrRevealingOptions(false)
         let trivia = triviaCollection[indexOfSelectedQuestion]
         
         if trivia.count == 2{//meaning that this is the anatomy of True False DataModel
@@ -127,20 +127,22 @@ class ViewController: UIViewController {
     
     
     func displayScore() {
-        // Hide the answer buttons
-        option1.hidden = true
-        option2.hidden = true
-        option3.hidden = true
-        option4.hidden = true
-        timer.hidden = true
-
+        hidingOrRevealingOptions(true)// Hide the answer buttons
+         timer.hidden = true
+        theCorrectAnswer.hidden = true
         
         // Display play again button
         playAgain.hidden = false
         
         outPutQuestion.text = "Way to go!\nYou got \(correctQuestions) out of \(questionsPerRound) correct!"
+        if correctQuestions == 0 {
+            let displayForUnansweredGame = "It seems that you haven't answered any of the question. Want give it a try again?"
+            theCorrectAnswer.text = displayForUnansweredGame
+        }
+
         
     }
+
     
     // this need to rework for 4 options
     
@@ -177,7 +179,7 @@ class ViewController: UIViewController {
             answerCheck = true
             designShowAnswerButton(with: answerCheck)
         } else {
-            
+            hidingOrRevealingOptions(true)
             playWrongSound()
             //design of Wrong font
             answerCheck = false
@@ -195,7 +197,7 @@ class ViewController: UIViewController {
     
     
     func nextRound() {
-        
+        timer.hidden = false // counter timer.hidden in playAgainOption
         
         if questionsAsked == questionsPerRound {
             // Game is over
@@ -219,20 +221,21 @@ class ViewController: UIViewController {
         }
     }
     
-        // Show the answer buttons
+    
     
     @IBAction func playAgainOption() {
         option1.hidden = false
         option2.hidden = false
+        counterTimer = 16
+        timer.hidden = true
         
         questionsAsked = 0
         correctQuestions = 0
         nextRound()
         
-        timer.hidden = false
-        counterTimer = 16 // setting back to lightning mode;
-        
-}
+
+
+       }
 
     // MARK: Helper Methods
     
@@ -350,23 +353,46 @@ class ViewController: UIViewController {
     
     func outputTimer(){
         if questionsAsked != questionsPerRound{//preventing that at the end of the round, the timer ticks
-            timerCount = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(ViewController.updateCounter), userInfo: nil, repeats: true) }
+            timerCount = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(ViewController.updateCounter), userInfo: nil, repeats: true)
+        }
         
     }
     func updateCounter(){
-        if counterTimer > 0 {
+        
+       if counterTimer > 0 {
             counterTimer -= 1
             timer.text = String(counterTimer)
-        } else {
-            
+        } else if counterTimer == 0 {
+
             theCorrectAnswer.hidden = false
             let didnotAnswer = "You didn't answer anything"
-            theCorrectAnswer.text = didnotAnswer
+            timer.text = didnotAnswer
             questionsAsked += 1
             nextRound()
 
         }
+        if questionsAsked == questionsPerRound{//making a long time delay at the Play Again scene..
+            counterTimer = 15
+            timer.hidden = true
+        }
     }
+   
     
+    // Helper function for Options true or false
+    func hidingOrRevealingOptions(trueOrFalse: Bool){
+        if trueOrFalse == true {
+            option1.hidden = true
+            option2.hidden = true
+            option3.hidden = true
+            option4.hidden = true
+            
+        } else if trueOrFalse == false {
+            option1.hidden = false
+            option2.hidden = false
+            option3.hidden = false
+            option4.hidden = false
+            
+        }
+    }
     
 }
